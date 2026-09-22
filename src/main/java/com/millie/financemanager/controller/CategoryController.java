@@ -1,12 +1,14 @@
 package com.millie.financemanager.controller;
 
+import com.millie.financemanager.dto.CategoryRequestDto;
+import com.millie.financemanager.dto.CategoryResponseDto;
 import com.millie.financemanager.entity.Category;
 import com.millie.financemanager.service.CategoryService;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -14,33 +16,41 @@ import java.util.List;
 public class CategoryController {
 
     private final CategoryService categoryService;
+    private final ModelMapper modelMapper;
 
-    public CategoryController(CategoryService categoryService) {
+    public CategoryController(CategoryService categoryService, ModelMapper modelMapper) {
         this.categoryService = categoryService;
+        this.modelMapper = modelMapper;
     }
 
     @GetMapping
-    public ResponseEntity<List<Category>> getCategories() {
+    public ResponseEntity<List<CategoryResponseDto>> getCategories() {
 
-        ArrayList<Category> categoriesList = (ArrayList<Category>) categoryService.getCategories();
+        List<CategoryResponseDto> categoriesList = categoryService.getCategories().stream().map(category -> convertToDto(category)).toList();
 
-        return new ResponseEntity<List<Category>> (categoriesList, HttpStatus.OK);
+        return ResponseEntity.status(HttpStatus.OK).body(categoriesList);
     }
 
     @GetMapping("/{categoryId}")
-    public ResponseEntity<Category> getCategory(@PathVariable long categoryId) {
-        return new ResponseEntity<Category>(categoryService.getCategory(categoryId), HttpStatus.OK);
+    public ResponseEntity<CategoryResponseDto> getCategory(@PathVariable long categoryId) {
+        CategoryResponseDto category = convertToDto(categoryService.getCategory(categoryId));
+        return ResponseEntity.status(HttpStatus.OK).body(category);
     }
 
     @PostMapping
-    public ResponseEntity<Category> createCategory(@RequestBody Category category) {
-        return new ResponseEntity<Category>(categoryService.createCategory(category), HttpStatus.CREATED);
+    public ResponseEntity<CategoryResponseDto> createCategory(@RequestBody CategoryRequestDto category) {
+        CategoryResponseDto newCategory = convertToDto(categoryService.createCategory(category));
+        return ResponseEntity.status(HttpStatus.CREATED).body(newCategory);
     }
 
     @DeleteMapping("/{categoryId}")
-    public ResponseEntity<String> deleteCategory(@PathVariable long categoryId) {
+    public ResponseEntity<Void> deleteCategory(@PathVariable long categoryId) {
         categoryService.deleteCategoryById(categoryId);
-        return new ResponseEntity<String>("Category has been deleted successfully", HttpStatus.OK);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    private CategoryResponseDto convertToDto(Category category) {
+        return modelMapper.map(category, CategoryResponseDto.class);
     }
 
 

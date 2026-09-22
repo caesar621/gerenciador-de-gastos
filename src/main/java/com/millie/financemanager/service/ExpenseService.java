@@ -60,4 +60,8 @@ public class ExpenseService {
         newExpense.setInstallment(installmentsList);
         return expenseRepository.save(newExpense);
     }
+
+    public void deleteExpenseById(long expenseId) {
+        expenseRepository.deleteById(expenseId);
+    }
 }

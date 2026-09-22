@@ -12,8 +12,8 @@ public class ExpenseResponseDto {
     private String name;
     private float totalValue;
     private PaymentType paymentType;
-    private Category category;
-    private List<Installment> installment;
+    private CategoryResponseDto category;
+    private List<InstallmentResponseDto> installment;
 
 //    constructors
     public ExpenseResponseDto() {}
@@ -51,19 +51,19 @@ public class ExpenseResponseDto {
         this.paymentType = paymentType;
     }
 
-    public Category getCategory() {
+    public CategoryResponseDto getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(CategoryResponseDto category) {
         this.category = category;
     }
 
-    public List<Installment> getInstallment() {
+    public List<InstallmentResponseDto> getInstallment() {
         return installment;
     }
 
-    public void setInstallment(List<Installment> installment) {
+    public void setInstallment(List<InstallmentResponseDto> installment) {
         this.installment = installment;
     }
 }

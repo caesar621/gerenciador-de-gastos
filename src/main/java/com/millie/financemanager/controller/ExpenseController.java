@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.millie.financemanager.service.ExpenseService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/expense")
 public class ExpenseController {
@@ -23,13 +25,27 @@ public class ExpenseController {
 
     @GetMapping("/{expenseId}")
     @ResponseBody
-    public ExpenseResponseDto listExpenses(@PathVariable long expenseId) {
-        return convertToDto(expenseService.getExpenseById(expenseId));
+    public ResponseEntity<ExpenseResponseDto> listExpense(@PathVariable long expenseId) {
+        ExpenseResponseDto expense = convertToDto(expenseService.getExpenseById(expenseId));
+        return ResponseEntity.status(HttpStatus.OK).body(expense);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ExpenseResponseDto>> listExpenses() {
+        List<ExpenseResponseDto> expensesList = expenseService.getExpenses().stream().map(expense -> convertToDto(expense)).toList();
+        return ResponseEntity.status(HttpStatus.OK).body(expensesList);
     }
 
     @PostMapping
     public ResponseEntity<ExpenseResponseDto> createExpense(@RequestBody ExpenseRequestDto expense) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(convertToDto(expenseService.createExpense(expense)));
+        ExpenseResponseDto newExpense = convertToDto(expenseService.createExpense(expense));
+        return ResponseEntity.status(HttpStatus.CREATED).body(newExpense);
+    }
+
+    @DeleteMapping("/{expenseId}")
+    public ResponseEntity<Void> deleteExpense(@PathVariable long expenseId) {
+        expenseService.deleteExpenseById(expenseId);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     private ExpenseResponseDto convertToDto(Expense expense) {

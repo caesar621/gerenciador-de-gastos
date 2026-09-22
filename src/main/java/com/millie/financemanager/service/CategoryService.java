@@ -1,5 +1,6 @@
 package com.millie.financemanager.service;
 
+import com.millie.financemanager.dto.CategoryRequestDto;
 import com.millie.financemanager.entity.Category;
 import com.millie.financemanager.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,7 @@ public class CategoryService {
         return categoryRepository.findById(categoryId).orElseThrow();
     }
 
-    public Category createCategory(Category category) {
+    public Category createCategory(CategoryRequestDto category) {
         Category newCategory = new Category();
         newCategory.setName(category.getName());
         newCategory.setColor(category.getColor());
