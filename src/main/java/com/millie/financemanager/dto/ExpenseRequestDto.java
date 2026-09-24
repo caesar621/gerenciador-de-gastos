@@ -1,16 +1,28 @@
 package com.millie.financemanager.dto;
 
 import com.millie.financemanager.enums.PaymentType;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 import java.time.LocalDate;
 
 public class ExpenseRequestDto {
 
+    @NotBlank
     private String name;
+
+    @Positive
     private float totalValue;
+
     private PaymentType paymentType;
+
     private Long categoryId;
+
+    @Min(value = 1)
     private int numberOfInstallments;
+
     private LocalDate firstDueDate;
 
 

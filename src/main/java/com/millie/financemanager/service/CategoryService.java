@@ -2,7 +2,11 @@ package com.millie.financemanager.service;
 
 import com.millie.financemanager.dto.CategoryRequestDto;
 import com.millie.financemanager.entity.Category;
+import com.millie.financemanager.entity.Expense;
+import com.millie.financemanager.exception.NotFoundException;
 import com.millie.financemanager.repository.CategoryRepository;
+import com.millie.financemanager.repository.ExpenseRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,9 +15,11 @@ import java.util.List;
 public class CategoryService {
 
     private final CategoryRepository categoryRepository;
+    private final ExpenseRepository expenseRepository;
 
-    public CategoryService(CategoryRepository categoryRepository) {
+    public CategoryService(CategoryRepository categoryRepository, ExpenseRepository expenseRepository) {
         this.categoryRepository = categoryRepository;
+        this.expenseRepository = expenseRepository;
     }
 
     public List<Category> getCategories() {
@@ -21,7 +27,7 @@ public class CategoryService {
     }
 
     public Category getCategory(long categoryId) {
-        return categoryRepository.findById(categoryId).orElseThrow();
+        return categoryRepository.findById(categoryId).orElseThrow(() -> new NotFoundException(Category.class, categoryId));
     }
 
     public Category createCategory(CategoryRequestDto category) {
@@ -31,7 +37,14 @@ public class CategoryService {
         return categoryRepository.save(newCategory);
     }
 
+    @Transactional
     public void deleteCategoryById(Long categoryId) {
+
+        List<Expense> expensesList = expenseRepository.getExpenseByCategory(categoryId);
+
+        expensesList.forEach(expense -> expense.setCategory(null));
+        expenseRepository.saveAll(expensesList);
+
         categoryRepository.deleteById(categoryId);
     }
 }

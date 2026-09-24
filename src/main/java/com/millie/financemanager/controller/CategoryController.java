@@ -4,6 +4,7 @@ import com.millie.financemanager.dto.CategoryRequestDto;
 import com.millie.financemanager.dto.CategoryResponseDto;
 import com.millie.financemanager.entity.Category;
 import com.millie.financemanager.service.CategoryService;
+import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,7 +39,7 @@ public class CategoryController {
     }
 
     @PostMapping
-    public ResponseEntity<CategoryResponseDto> createCategory(@RequestBody CategoryRequestDto category) {
+    public ResponseEntity<CategoryResponseDto> createCategory(@RequestBody @Valid CategoryRequestDto category) {
         CategoryResponseDto newCategory = convertToDto(categoryService.createCategory(category));
         return ResponseEntity.status(HttpStatus.CREATED).body(newCategory);
     }

@@ -5,6 +5,7 @@ import com.millie.financemanager.entity.Category;
 import com.millie.financemanager.entity.Expense;
 import com.millie.financemanager.entity.Installment;
 import com.millie.financemanager.enums.Status;
+import com.millie.financemanager.exception.NotFoundException;
 import com.millie.financemanager.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
 import com.millie.financemanager.repository.ExpenseRepository;
@@ -28,16 +29,20 @@ public class ExpenseService {
     }
 
     public Expense getExpenseById(long expenseId) {
-        return expenseRepository.findById(expenseId).orElseThrow();
+        return expenseRepository.findById(expenseId).orElseThrow(() -> new NotFoundException(Expense.class, expenseId));
     }
 
     public Expense createExpense(ExpenseRequestDto expense) {
 
-        Category category = categoryRepository.findById(expense.getCategoryId()).orElseThrow();
-
         Expense newExpense = new Expense();
+        Long categoryId = expense.getCategoryId();
+
+        if (categoryId != null) {
+            Category category = categoryRepository.findById(expense.getCategoryId()).orElseThrow(() -> new NotFoundException(Category.class, categoryId));
+            newExpense.setCategory(category);
+        }
+
         newExpense.setName(expense.getName());
-        newExpense.setCategory(category);
         newExpense.setPaymentType(expense.getPaymentType());
         newExpense.setTotalValue(expense.getTotalValue());
 

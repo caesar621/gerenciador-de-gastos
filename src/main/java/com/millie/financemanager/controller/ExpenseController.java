@@ -3,6 +3,7 @@ package com.millie.financemanager.controller;
 import com.millie.financemanager.dto.ExpenseRequestDto;
 import com.millie.financemanager.dto.ExpenseResponseDto;
 import com.millie.financemanager.entity.Expense;
+import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,7 +38,7 @@ public class ExpenseController {
     }
 
     @PostMapping
-    public ResponseEntity<ExpenseResponseDto> createExpense(@RequestBody ExpenseRequestDto expense) {
+    public ResponseEntity<ExpenseResponseDto> createExpense(@RequestBody @Valid ExpenseRequestDto expense) {
         ExpenseResponseDto newExpense = convertToDto(expenseService.createExpense(expense));
         return ResponseEntity.status(HttpStatus.CREATED).body(newExpense);
     }
