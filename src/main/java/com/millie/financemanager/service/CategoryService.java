@@ -6,8 +6,8 @@ import com.millie.financemanager.entity.Expense;
 import com.millie.financemanager.exception.NotFoundException;
 import com.millie.financemanager.repository.CategoryRepository;
 import com.millie.financemanager.repository.ExpenseRepository;
-import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -26,7 +26,7 @@ public class CategoryService {
         return categoryRepository.findAll();
     }
 
-    public Category getCategory(long categoryId) {
+    public Category getCategory(Long categoryId) {
         return categoryRepository.findById(categoryId).orElseThrow(() -> new NotFoundException(Category.class, categoryId));
     }
 
@@ -39,12 +39,12 @@ public class CategoryService {
 
     @Transactional
     public void deleteCategoryById(Long categoryId) {
-
-        List<Expense> expensesList = expenseRepository.getExpenseByCategory(categoryId);
+        Category category = getCategory(categoryId);
+        List<Expense> expensesList = expenseRepository.getExpenseByCategory(category);
 
         expensesList.forEach(expense -> expense.setCategory(null));
         expenseRepository.saveAll(expensesList);
 
-        categoryRepository.deleteById(categoryId);
+        categoryRepository.delete(category);
     }
 }
