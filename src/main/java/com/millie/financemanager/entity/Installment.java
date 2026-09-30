@@ -2,6 +2,7 @@ package com.millie.financemanager.entity;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Date;
 import com.millie.financemanager.enums.Status;
@@ -14,7 +15,7 @@ public class Installment {
     private long id;
 
     private int installmentNumber;
-    private float installmentValue;
+    private BigDecimal installmentValue;
     private LocalDate dueDate;
 
     @Enumerated(EnumType.STRING)
@@ -40,11 +41,11 @@ public class Installment {
         this.installmentNumber = installmentNumber;
     }
 
-    public float getInstallmentValue() {
+    public BigDecimal getInstallmentValue() {
         return installmentValue;
     }
 
-    public void setInstallmentValue(float installmentValue) {
+    public void setInstallmentValue(BigDecimal installmentValue) {
         this.installmentValue = installmentValue;
     }
 

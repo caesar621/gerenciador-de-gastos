@@ -2,13 +2,14 @@ package com.millie.financemanager.dto;
 
 import com.millie.financemanager.enums.Status;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class InstallmentResponseDto {
 
     private long id;
     private int installmentNumber;
-    private float installmentValue;
+    private BigDecimal installmentValue;
     private LocalDate dueDate;
     private Status status;
 
@@ -30,11 +31,11 @@ public class InstallmentResponseDto {
         this.installmentNumber = installmentNumber;
     }
 
-    public float getInstallmentValue() {
+    public BigDecimal getInstallmentValue() {
         return installmentValue;
     }
 
-    public void setInstallmentValue(float installmentValue) {
+    public void setInstallmentValue(BigDecimal installmentValue) {
         this.installmentValue = installmentValue;
     }
 

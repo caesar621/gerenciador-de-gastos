@@ -10,5 +10,5 @@ import java.util.List;
 @Repository
 public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 
-    List<Expense> getExpenseByCategory(Category category);
+    List<Expense> findExpenseByCategory(Category category);
 }

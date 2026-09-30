@@ -47,6 +47,7 @@ public class ExpenseRequestDto {
         this.totalValue = totalValue;
     }
 
+
     public PaymentType getPaymentType() {
         return paymentType;
     }
