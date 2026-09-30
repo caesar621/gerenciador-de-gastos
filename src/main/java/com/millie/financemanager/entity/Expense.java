@@ -3,6 +3,7 @@ package com.millie.financemanager.entity;
 import com.millie.financemanager.enums.PaymentType;
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
@@ -13,7 +14,7 @@ public class Expense {
     private long id;
 
     private String name;
-    private float totalValue;
+    private BigDecimal totalValue;
 
     @Enumerated(EnumType.STRING)
     private PaymentType paymentType;
@@ -41,11 +42,11 @@ public class Expense {
         this.name = name;
     }
 
-    public float getTotalValue() {
+    public BigDecimal getTotalValue() {
         return totalValue;
     }
 
-    public void setTotalValue(float totalValue) {
+    public void setTotalValue(BigDecimal totalValue) {
         this.totalValue = totalValue;
     }
 

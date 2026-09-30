@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class ExpenseRequestDto {
@@ -14,8 +15,8 @@ public class ExpenseRequestDto {
     private String name;
 
     @Positive
-    private float totalValue;
-
+    private BigDecimal totalValue;
+    
     private PaymentType paymentType;
 
     private Long categoryId;
@@ -38,11 +39,11 @@ public class ExpenseRequestDto {
         this.name = name;
     }
 
-    public float getTotalValue() {
+    public BigDecimal getTotalValue() {
         return totalValue;
     }
 
-    public void setTotalValue(float totalValue) {
+    public void setTotalValue(BigDecimal totalValue) {
         this.totalValue = totalValue;
     }
 

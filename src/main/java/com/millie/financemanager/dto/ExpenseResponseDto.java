@@ -4,13 +4,14 @@ import com.millie.financemanager.entity.Category;
 import com.millie.financemanager.entity.Installment;
 import com.millie.financemanager.enums.PaymentType;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class ExpenseResponseDto {
 
     private long id;
     private String name;
-    private float totalValue;
+    private BigDecimal totalValue;
     private PaymentType paymentType;
     private CategoryResponseDto category;
     private List<InstallmentResponseDto> installment;
@@ -35,11 +36,11 @@ public class ExpenseResponseDto {
         this.name = name;
     }
 
-    public float getTotalValue() {
+    public BigDecimal getTotalValue() {
         return totalValue;
     }
 
-    public void setTotalValue(float totalValue) {
+    public void setTotalValue(BigDecimal totalValue) {
         this.totalValue = totalValue;
     }
 
