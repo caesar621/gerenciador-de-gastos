@@ -40,7 +40,7 @@ public class CategoryService {
     @Transactional
     public void deleteCategoryById(Long categoryId) {
         Category category = getCategory(categoryId);
-        List<Expense> expensesList = expenseRepository.getExpenseByCategory(category);
+        List<Expense> expensesList = expenseRepository.findExpenseByCategory(category);
 
         expensesList.forEach(expense -> expense.setCategory(null));
         expenseRepository.saveAll(expensesList);
