@@ -10,6 +10,8 @@ import com.millie.financemanager.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
 import com.millie.financemanager.repository.ExpenseRepository;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,14 +50,27 @@ public class ExpenseService {
 
         ArrayList<Installment> installmentsList = new ArrayList<Installment>();
 
-        float installmentValue = expense.getTotalValue() / expense.getNumberOfInstallments();
-
+        BigDecimal totalValue = expense.getTotalValue().movePointRight(2);
+        BigDecimal numOfInstallments = new BigDecimal(expense.getNumberOfInstallments());
         LocalDate firstDueDate = expense.getFirstDueDate() != null ? expense.getFirstDueDate() : LocalDate.now();
+
+        BigDecimal[] result = totalValue.divideAndRemainder(numOfInstallments);
+        BigDecimal installmentValue = result[0];
+
+        BigDecimal baseValue = installmentValue.movePointLeft(2).setScale(2, RoundingMode.UNNECESSARY);
+        long extraValueQuotient = result[1].longValueExact();
 
         for (int i = 0; i < expense.getNumberOfInstallments(); i++) {
             Installment installment = new Installment();
             installment.setExpense(newExpense);
-            installment.setInstallmentValue(installmentValue);
+
+            if (extraValueQuotient != 0) {
+                installment.setInstallmentValue(baseValue.add(new BigDecimal("0.01")));
+                extraValueQuotient-=1;
+            } else {
+                installment.setInstallmentValue(baseValue);
+            }
+
             installment.setInstallmentNumber(i+1);
             installment.setDueDate(firstDueDate.plusMonths(i));
             installmentsList.add(installment);
