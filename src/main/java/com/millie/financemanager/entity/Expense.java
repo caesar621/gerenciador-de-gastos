@@ -2,6 +2,7 @@ package com.millie.financemanager.entity;
 
 import com.millie.financemanager.enums.PaymentType;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -16,6 +17,7 @@ public class Expense {
     private String name;
     private BigDecimal totalValue;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     private PaymentType paymentType;
 
