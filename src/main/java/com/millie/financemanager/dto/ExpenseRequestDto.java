@@ -1,10 +1,7 @@
 package com.millie.financemanager.dto;
 
 import com.millie.financemanager.enums.PaymentType;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -14,7 +11,9 @@ public class ExpenseRequestDto {
     @NotBlank
     private String name;
 
+    @NotNull
     @Positive
+    @Digits(integer = 17, fraction = 2) //revisar e corrigir aqui o número máximo de digitos para a coluna de valor total de despesa
     private BigDecimal totalValue;
     
     private PaymentType paymentType;
