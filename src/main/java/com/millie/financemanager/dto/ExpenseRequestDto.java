@@ -15,7 +15,8 @@ public class ExpenseRequestDto {
     @Positive
     @Digits(integer = 17, fraction = 2) //revisar e corrigir aqui o número máximo de digitos para a coluna de valor total de despesa
     private BigDecimal totalValue;
-    
+
+    @NotNull
     private PaymentType paymentType;
 
     private Long categoryId;

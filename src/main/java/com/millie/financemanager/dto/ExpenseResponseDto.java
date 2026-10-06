@@ -1,7 +1,5 @@
 package com.millie.financemanager.dto;
 
-import com.millie.financemanager.entity.Category;
-import com.millie.financemanager.entity.Installment;
 import com.millie.financemanager.enums.PaymentType;
 
 import java.math.BigDecimal;
