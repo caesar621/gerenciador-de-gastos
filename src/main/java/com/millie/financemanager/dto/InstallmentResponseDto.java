@@ -11,6 +11,7 @@ public class InstallmentResponseDto {
     private int installmentNumber;
     private BigDecimal installmentValue;
     private LocalDate dueDate;
+    private LocalDate paymentDate;
     private Status status;
 
     public InstallmentResponseDto() {}
@@ -46,6 +47,10 @@ public class InstallmentResponseDto {
     public void setDueDate(LocalDate dueDate) {
         this.dueDate = dueDate;
     }
+
+    public  LocalDate getPaymentDate() { return paymentDate; }
+
+    public void setPaymentDate(LocalDate paymentDate) { this.paymentDate = paymentDate; }
 
     public Status getStatus() {
         return status;

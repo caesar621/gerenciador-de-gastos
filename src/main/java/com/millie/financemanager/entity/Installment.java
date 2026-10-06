@@ -17,6 +17,7 @@ public class Installment {
     private int installmentNumber;
     private BigDecimal installmentValue;
     private LocalDate dueDate;
+    private LocalDate paymentDate;
 
     @Enumerated(EnumType.STRING)
     private Status status;
@@ -56,6 +57,12 @@ public class Installment {
     public void setDueDate(LocalDate dueDate) {
         this.dueDate = dueDate;
     }
+
+    public LocalDate getPaymentDate() {
+        return paymentDate;
+    }
+
+    public void setPaymentDate(LocalDate paymentDate) { this.paymentDate = paymentDate; }
 
     public Status getStatus() {
         return status;
