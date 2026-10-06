@@ -26,6 +26,7 @@ public class Expense {
     private Category category;
 
     @OneToMany(mappedBy = "expense", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("installmentNumber ASC")
     private List<Installment> installment;
 
     public long getId() {
