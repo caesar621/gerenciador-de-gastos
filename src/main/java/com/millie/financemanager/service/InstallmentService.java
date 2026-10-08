@@ -24,12 +24,11 @@ public class InstallmentService {
         Installment updatedInstallment = installmentRepository.findById(installmentId).orElseThrow(() -> new NotFoundException(Installment.class, installmentId));
 
         Status currentStatus = updatedInstallment.getStatus();
+        Status newStatus = installment.getStatus();
 
-        if (currentStatus == PAID) {
+        if (currentStatus == PAID && newStatus == PAID) {
             return updatedInstallment;
         }
-
-        Status newStatus = installment.getStatus();
 
         LocalDate paymentDate = switch (newStatus) {
             case PAID -> LocalDate.now();
