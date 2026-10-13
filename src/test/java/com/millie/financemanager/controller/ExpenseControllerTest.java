@@ -6,6 +6,7 @@ import com.millie.financemanager.entity.Expense;
 import com.millie.financemanager.enums.PaymentType;
 import com.millie.financemanager.service.ExpenseService;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.context.annotation.Import;
@@ -93,8 +94,8 @@ public class ExpenseControllerTest {
         when(expenseService.createExpense(any(ExpenseRequestDto.class))).thenReturn(expense);
 
         mockMvc.perform(post("/expense")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(jsonBody))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonBody))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.name").value("Aluguel"));
     }
@@ -117,5 +118,14 @@ public class ExpenseControllerTest {
                 .andExpect(status().is4xxClientError())
                 .andExpect(jsonPath("$.errors").value("Invalid value PIX for field paymentType. Accepted values: CREDIT, CASH"));
 
+    }
+
+    @Test
+    void shouldSuccessfullyDeleteExpense() throws Exception {
+
+        mockMvc.perform(delete("/expense/1"))
+                .andExpect(status().isNoContent());
+
+        Mockito.verify(expenseService).deleteExpenseById(1L);
     }
 }
