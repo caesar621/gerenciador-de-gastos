@@ -169,7 +169,7 @@ public class ExpenseServiceTest {
     @Test
     void shouldSuccessfullyDeleteExpense() {
 
-        expenseRepository.deleteById(1L);
+        expenseService.deleteExpenseById(1L);
         Mockito.verify(expenseRepository).deleteById(1L);
 
     }
