@@ -15,6 +15,8 @@ public class Expense {
     private long id;
 
     private String name;
+
+    @Column(nullable = false, precision = 12, scale = 2)
     private BigDecimal totalValue;
 
     @NotNull

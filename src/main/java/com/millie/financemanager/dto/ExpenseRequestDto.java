@@ -13,7 +13,7 @@ public class ExpenseRequestDto {
 
     @NotNull
     @Positive
-    @Digits(integer = 17, fraction = 2) //revisar e corrigir aqui o número máximo de digitos para a coluna de valor total de despesa
+    @Digits(integer = 10, fraction = 2)
     private BigDecimal totalValue;
 
     @NotNull
