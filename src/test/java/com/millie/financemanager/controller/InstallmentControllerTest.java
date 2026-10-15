@@ -35,6 +35,8 @@ public class InstallmentControllerTest {
     @MockitoBean
     private InstallmentService installmentService;
 
+    //refatorar testes com o uso de parametrize para reduzir redudância
+
     @Test
     void shouldSuccessfullyReturnUpdatedInstallmentStatus() throws Exception {
 
@@ -57,6 +59,31 @@ public class InstallmentControllerTest {
                         .content(jsonBody))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value(Status.PAID.name()));
+
+    }
+
+    @Test
+    void shouldThrowExceptionIfEmptyStatus() throws Exception {
+
+        Installment installment = new Installment();
+        installment.setId(1L);
+        installment.setDueDate(LocalDate.now().plusMonths(1));
+        installment.setInstallmentNumber(1);
+        installment.setPaymentDate(LocalDate.now());
+        installment.setStatus(Status.PAID);
+
+        String jsonBody = """
+                {
+                
+                }
+                """;
+
+        when(installmentService.updateInstallmentStatus(eq(1L), any(InstallmentRequestDto.class))).thenReturn(installment);
+
+        mockMvc.perform(patch("/installment/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonBody))
+                .andExpect(status().isBadRequest());
 
     }
 }
