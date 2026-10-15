@@ -22,6 +22,7 @@ public class ExpenseRequestDto {
     private Long categoryId;
 
     @Min(value = 1)
+    @Max(value = 360)
     private int numberOfInstallments;
 
     private LocalDate firstDueDate;
