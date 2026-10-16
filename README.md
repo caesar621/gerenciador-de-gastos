@@ -11,16 +11,36 @@ Java 21, Spring Boot, Spring Data JPA, PostgreSQL, Docker, JUnit/Mockito
 - Controle de parcelas pagas e não pagas
 
 ## Como rodar
-### Pré-requisitos
-Java 21 e Docker
 
-### Passos
+### Rodando via Docker (Recomendado)
+
+#### Pré-requisitos
+- Docker
+
+#### Passos
+```bash
+cp .env.example .env          # preencha DB_USER e DB_PASSWORD
+docker compose up --build     # sobe o banco e API
+```
+
+---
+
+### Rodando API localmente
+
+#### Pré-requisitos
+- Java 21
+- Docker
+
+#### Passos
 ```bash
 cp .env.example .env        # preencha DB_USER e DB_PASSWORD
-docker compose up -d        # sobe o Postgres
+docker compose up -d db     # sobe o Postgres
 ./mvnw spring-boot:run      # sobe a API
 ```
-Por padrão, a API fica disponivel em `http://localhost:8080`
+
+### Como acessar a API
+
+Por padrão, a API fica disponível em `http://localhost:8080`
 
 ## Endpoints
 
@@ -36,7 +56,7 @@ Por padrão, a API fica disponivel em `http://localhost:8080`
 | Método | Rota | Descrição |
 |---|---|---|
 | POST | /category | Cria categoria |
-| GET | /category | Retorna todas as c | ategorias
+| GET | /category | Retorna todas as categorias |
 | GET | /category/{id} | Retorna categoria que possui o ID informado |
 | DELETE | /category/{id} | Deleta categoria que possui o ID informado |
 
