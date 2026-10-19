@@ -5,6 +5,8 @@ import com.millie.financemanager.dto.CategoryRequestDto;
 import com.millie.financemanager.entity.Category;
 import com.millie.financemanager.service.CategoryService;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
@@ -93,6 +95,22 @@ public class CategoryControllerTest {
                         .content(jsonBody))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").value(1L));
+
+    }
+
+    @ParameterizedTest
+    @NullAndEmptySource
+    void shouldThrowExceptionIfInvalidName(String input) throws Exception {
+
+        CategoryRequestDto requestDto = new CategoryRequestDto();
+        requestDto.setName(input);
+
+        String jsonBody = objectMapper.writeValueAsString(requestDto);
+
+        mockMvc.perform(post("/category")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonBody))
+                .andExpect(status().isBadRequest());
 
     }
 
